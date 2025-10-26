@@ -1,4 +1,4 @@
-from core import geometry, electrical
+from core import geometry_ZIP, electrical_ZIP
 
 
 class ZIPSensor:
@@ -35,33 +35,36 @@ class ZIPSensor:
             print("Верхняя граница диапозона измерений меньше")
 
     def calc(self):
-        S_B = geometry.calc_S_B(self.D1, self.D2, self.d2, self.d1)
-        L_cd, l_c3, l_c2, l_c1 = geometry.calc_L_cd(self.h1, self.h2, self.D1, self.D2, self.d1, self.d2)
-        S_cd, a1, a2, a3 = geometry.calc_S_cd(L_cd, self.h1, self.h2, self.D1, self.D2, self.d1, self.d2)
-        S_y, L_y = geometry.calс_S_yakor(l_c3, self.D1, self.D2, self.d1, self.d2)
-        L_c, S_c = geometry.calc_L_S_magnit(L_y, L_cd, S_cd, S_y)
-        S_ok = geometry.calc_S_ok(self.D2, self.d2, self.h1, self.K_kp)
-        R_cp = geometry.calc_R_cp(self.D2, self.d2)
+        S_B = geometry_ZIP.calc_S_B(self.D1, self.D2, self.d2, self.d1)
+        L_cd, l_c3, l_c2, l_c1 = geometry_ZIP.calc_L_cd(self.h1, self.h2, self.D1, self.D2, self.d1, self.d2)
+        S_cd, a1, a2, a3 = geometry_ZIP.calc_S_cd(L_cd, self.h1, self.h2, self.D1, self.D2, self.d1, self.d2)
+        S_y, L_y = geometry_ZIP.calс_S_yakor(l_c3, self.h3, self.D1, self.D2, self.d1, self.d2)
+        L_c, S_c = geometry_ZIP.calc_L_S_magnit(L_y, L_cd, S_cd, S_y)
+        S_ok = geometry_ZIP.calc_S_ok(self.D2, self.d2, self.h1, self.K_kp)
+        R_cp = geometry_ZIP.calc_R_cp(self.D2, self.d2)
 
         # 2. Электрические расчеты
-        N = electrical.calc_N(self.h1, L_c, S_c)
-        R_mC = electrical.calc_R_mC(L_c, S_c, N, self.mu_c, self.mu_0)
-        R_mb, k_B , R_B0 = electrical.calc_R_mb(self.l0, self.mu_0, S_B, 0)  # x=0 для начального положения
-        w_0 = electrical.calc_w_0(self.d_n)
-        w = electrical.calc_w(w_0, S_ok)
-        R_k = electrical.calc_R_k(R_cp, w, self.d_n, self.p_n)
+        N = electrical_ZIP.calc_N(self.h1, L_c, S_c)
+        R_mC = electrical_ZIP.calc_R_mC(L_c, S_c, N, self.mu_c, self.mu_0)
+        R_mb, k_B , R_B0 = electrical_ZIP.calc_R_mb(self.l0, self.mu_0, S_B, 0)  # x=0 для начального положения
+        w_0 = electrical_ZIP.calc_w_0(self.d_n)
+        w = electrical_ZIP.calc_w(w_0, S_ok)
+        R_k = electrical_ZIP.calc_R_k(R_cp,self.d_n, self.p_n,w)
 
-        k_x = electrical.calc_k_x(R_mC, R_B0, k_B)
-        gamma, q = electrical.calc_gamma(k_x, self.xv)
-        d_z = electrical.calc_d_z(q)
+        R_B = electrical_ZIP.calc_R_B(self.l0, self.mu_0, S_B, self.x)
 
-        eta = electrical.calc_eta(R_k, self.z_0_eta, d_z)
+        k_x = electrical_ZIP.calc_k_x(R_mC, R_B0, k_B)
+        gamma, q = electrical_ZIP.calc_gamma(k_x, self.xv)
+        d_z = electrical_ZIP.calc_d_z(q)
 
-        f_p = electrical.calc_f_p(self.z_0_eta,w,eta,R_mC,R_B0)
+        eta = electrical_ZIP.calc_eta(R_k, self.z_0_eta, d_z)
 
-        z_0 = electrical.calc_z_0(f_p, R_mC, R_B0, w, eta)
+        f_p = electrical_ZIP.calc_f_p(self.z_0_eta,w,eta,R_mC,R_B0)
+
+        z_0 = electrical_ZIP.calc_z_0(f_p, R_mC, R_B0, w, eta)
         x = 0
-        Z_x= electrical.calc_Z_x(z_0,k_x,x)
+        gamma_pi = electrical_ZIP.calc_gamma_pi(gamma)
+        Z_x= electrical_ZIP.calc_Z_x(z_0,k_x,x)
 
         # Сохраняем результаты
         results = {

@@ -6,39 +6,35 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 from models.sensor_zip import ZIPSensor
-from core import geometry,electrical
-
-xv = 0.03
-d_zT_min = 3
+from core import geometry_ZIP,electrical_ZIP
+# Начальные данные для ЗИП
+xv = 0.5
+d_zT_min = 10
 eta_max = 5
 
 x=0.003
 x_start = -1*xv
-#while x_start <= 0.03:
-    #x.append(x_start)
-    #x_start = x_start -
 
-K_kp = 0.7
+K_kp = 1
 p_n = 17.5*10**-6 #Удельное сопротивление меди
-
-
 
 mu_c = 3000
 mu_0 = 4*np.pi*10**-10
 
-
-z0 = 2000
+z0 = 1000
 z_0_eta = 2000
 d_n = 0.1
 
-d1 = 3
-d2 = 5
-D1 = 14
-D2 = 13.5
-h1 = 3
-h2 = 3.5
-h3 = 1
-l0 = 0.035
+d1 = 7
+d2 = 9
+D1 = 47
+D2 = 27
+h1 = 10
+h2 = 15
+h3 = 5
+l0 = 0.055
+
+# Начальные данные для ПИП
 
 
 print("Создаем модель датчика ЗИП...")
