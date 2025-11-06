@@ -76,5 +76,4 @@ class PIPSensor:
             'q': q, 'd_z': d_z, 'Z_x': Z_x
         }
 
-        self.update_result(results)
         return results
