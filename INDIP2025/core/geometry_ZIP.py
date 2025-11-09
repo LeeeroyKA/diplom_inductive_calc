@@ -32,7 +32,7 @@ def calc_S_cd(L_cd,h1,h2,D1,D2,d1,d2): #Площадь сечения серде
     print(f"Площади сечения сердечника S_cd... {S_cd}")
     return S_cd, a1, a2, a3
 
-def calс_S_yakor(l_c3,h3, D1, D2, d1, d2): #Площадь сечения и длина якоря
+def calc_S_yakor(l_c3,h3, D1, D2, d1, d2): #Площадь сечения и длина якоря
 
     L_y = l_c3
     S_y = 2*np.pi*h3*L_y/ (np.log((D1+D2)/(d1+d2)))

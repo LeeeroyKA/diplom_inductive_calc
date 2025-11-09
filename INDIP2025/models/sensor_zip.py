@@ -38,7 +38,7 @@ class ZIPSensor:
         S_B = geometry_ZIP.calc_S_B(self.D1, self.D2, self.d2, self.d1)
         L_cd, l_c3, l_c2, l_c1 = geometry_ZIP.calc_L_cd(self.h1, self.h2, self.D1, self.D2, self.d1, self.d2)
         S_cd, a1, a2, a3 = geometry_ZIP.calc_S_cd(L_cd, self.h1, self.h2, self.D1, self.D2, self.d1, self.d2)
-        S_y, L_y = geometry_ZIP.calс_S_yakor(l_c3, self.h3, self.D1, self.D2, self.d1, self.d2)
+        S_y, L_y = geometry_ZIP.calc_S_yakor(l_c3, self.h3, self.D1, self.D2, self.d1, self.d2)
         L_c, S_c = geometry_ZIP.calc_L_S_magnit(L_y, L_cd, S_cd, S_y)
         S_ok = geometry_ZIP.calc_S_ok(self.D2, self.d2, self.h1, self.K_kp)
         R_cp = geometry_ZIP.calc_R_cp(self.D2, self.d2)
@@ -49,9 +49,9 @@ class ZIPSensor:
         R_mb, k_B , R_B0 = electrical_ZIP.calc_R_mb(self.l0, self.mu_0, S_B, 0)  # x=0 для начального положения
         w_0 = electrical_ZIP.calc_w_0(self.d_n)
         w = electrical_ZIP.calc_w(w_0, S_ok)
-        R_k = electrical_ZIP.calc_R_k(R_cp,self.d_n, self.p_n,w)
+        R_k = electrical_ZIP.calc_R_k(R_cp, self.d_n, w, self.p_n)
 
-        R_B = electrical_ZIP.calc_R_B(self.l0, self.mu_0, S_B, self.x)
+        R_B = electrical_ZIP.calc_R_B(self.l0, self.x, self.mu_0, S_B)
 
         k_x = electrical_ZIP.calc_k_x(R_mC, R_B0, k_B)
         gamma, q = electrical_ZIP.calc_gamma(k_x, self.xv)
